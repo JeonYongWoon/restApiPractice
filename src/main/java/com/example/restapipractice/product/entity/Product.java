@@ -24,5 +24,8 @@ public class Product {
         this.price = price;
     }
 
+    //jpa생성자
+    protected Product(){}
+
 
 }

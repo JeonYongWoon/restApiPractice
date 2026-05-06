@@ -12,6 +12,9 @@ public class AdminCreateRequestDto {
     }
 
     //기능
+    public String getName(){
+        return name;
+    }
 
 
 }
