@@ -2,30 +2,36 @@ package com.example.restapipractice.product.entity;
 
 import com.example.restapipractice.admin.entity.Admin;
 import jakarta.persistence.*;
-import lombok.NoArgsConstructor;
 
 @Entity
-@NoArgsConstructor
 @Table(name = "Products")
 public class Product {
     //속성
     @Id
-    @GeneratedValue(GenerationType.IDENTITY)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
-    private Long adminId;
-    private String password;
+    @ManyToOne
+    @JoinColumn(name = "admin_id")
+    private Admin admin;
+    private String name;
     private int price;
 
     //생성자
-    public Product(Long id, Long adminId, String password, int price){
-        this.id = id;
-        this.adminId = adminId;
-        this.password = password;
+    public Product(Admin admin, String name, int price){
+        this.admin = admin;
+        this.name = name;
         this.price = price;
     }
 
     //jpa생성자
     protected Product(){}
 
+    //기능
+    public String getName() {
+        return name;
+    }
 
+    public int getPrice() {
+        return price;
+    }
 }

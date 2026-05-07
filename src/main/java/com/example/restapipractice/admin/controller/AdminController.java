@@ -27,7 +27,8 @@ public class AdminController {
     //3. 관리자 회원가입 컨트롤러로직 생성
     @PostMapping("/signup")
     //4. 클라이언트한테서 생성요청dto받아오기
-    public ResponseEntity<AdminCreateResponseDto> adminCreateController(@RequestBody AdminCreateRequestDto requestDto){
+    public ResponseEntity<AdminCreateResponseDto>
+    adminCreateController(@RequestBody AdminCreateRequestDto requestDto){
         //5. 받은 dto 서비스에게 넘기기 &  처리 결과 받기
         AdminCreateResponseDto responseDto = adminService.adminCreateService(requestDto);
         //6. 멋진 반환 객체 만들기

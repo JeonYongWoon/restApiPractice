@@ -1,6 +1,5 @@
 package com.example.restapipractice.admin.service;
 
-import com.example.restapipractice.admin.controller.AdminController;
 import com.example.restapipractice.admin.dto.AdminCreateRequestDto;
 import com.example.restapipractice.admin.dto.AdminCreateResponseDto;
 import com.example.restapipractice.admin.entity.Admin;
@@ -34,11 +33,11 @@ public class AdminService {
         Admin savedAdmin = adminRepository.save(newAdmin);
 
         //5.저장한 데이터 중 응답dto에 넣어줄 데이터 만들기
-        Long savedAdminIdid = savedAdmin.getId();
+        Long savedAdminId = savedAdmin.getId();
         String savedAdminName = savedAdmin.getName();
 
         //6. 응답 dto에 데이터 넣어주기
-        AdminCreateResponseDto responseDto = new AdminCreateResponseDto(savedAdminIdid, savedAdminName);
+        AdminCreateResponseDto responseDto = new AdminCreateResponseDto(savedAdminId, savedAdminName);
 
         //6. dto 컨트롤러로 반환하기
         return responseDto;
