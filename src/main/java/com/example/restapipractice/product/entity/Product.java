@@ -27,15 +27,12 @@ public class Product {
     protected Product(){}
 
     //기능
-    public String getName() {
-        return name;
-    }
 
-    public int getPrice() {
-        return price;
-    }
+    public Long getId() {return id;}
 
-    public Admin getAdmin() {
-        return admin;
-    }
+    public String getName() {return name;}
+
+    public int getPrice() {return price;}
+
+    public Admin getAdmin() {return admin;}
 }

@@ -3,7 +3,7 @@ package com.example.restapipractice.product.controller;
 import com.example.restapipractice.product.dto.ProductCreateRequestDto;
 import com.example.restapipractice.product.dto.ProductCreateResponseDto;
 import com.example.restapipractice.product.dto.ProductReadAllResponseDto;
-import com.example.restapipractice.product.dto.ProductReadRequestDto;
+import com.example.restapipractice.product.dto.ProductReadResponseDto;
 import com.example.restapipractice.product.service.ProductService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -55,7 +55,13 @@ public class ProductController {
      */
     @GetMapping("/{id}")
     // 1. 클라이언트에게서 리퀘스트dto 받기
-    public void productReadController(ProductReadRequestDto productReadRequestDto){
+    public ResponseEntity<ProductReadResponseDto> productReadController(@PathVariable Long id){
+        // 2. 서비스에게 요청하고 결과 받기
+        ProductReadResponseDto responseDto = productService.productReadService(id);
+        // 3. 멋진 반환 객체 만들기
+        ResponseEntity<ProductReadResponseDto> response = new ResponseEntity<>(responseDto, HttpStatus.OK);
+        // 4. 반환하기
+        return response;
 
     }
 

@@ -2,10 +2,7 @@ package com.example.restapipractice.product.service;
 
 import com.example.restapipractice.admin.entity.Admin;
 import com.example.restapipractice.admin.repository.AdminRepository;
-import com.example.restapipractice.product.dto.ProductCreateRequestDto;
-import com.example.restapipractice.product.dto.ProductCreateResponseDto;
-import com.example.restapipractice.product.dto.ProductDto;
-import com.example.restapipractice.product.dto.ProductReadAllResponseDto;
+import com.example.restapipractice.product.dto.*;
 import com.example.restapipractice.product.entity.Product;
 import com.example.restapipractice.product.repository.ProductRepository;
 import org.springframework.stereotype.Service;
@@ -84,6 +81,27 @@ public class ProductService {
         return responseDto;
 
     }
+    /**
+     *상품 단건조회 서비스
+     * 모니터 상품을 조회하면 해당 상품을 등록한 관리자의 이름도 함께 응답으로 반환되어야합니다.
+     */
+    @Transactional(readOnly = true)
+    // 1.요청 매개변수 담아주기
+    public ProductReadResponseDto productReadService(Long id){
+        // 2. 레포지토리안에 변수값 있는지 조회하기
+        Product newProduct = productRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("상품번호가 조회되지 않습니다."));
+        // 3. 찾은 엔티티 안에 필요한 데이터 꺼내기
+        Long findID = newProduct.getId();
+        String findName = newProduct.getName();
+        int findPrice = newProduct.getPrice();
+        String findAdminName = newProduct.getAdmin().getName();
 
+        //4. 꺼낸 데이터 응답dto안에 넣어주기
+        ProductReadResponseDto responseDto = new ProductReadResponseDto(findID, findName, findPrice, findAdminName);
+
+        // 5. 반환하기
+        return responseDto;
+    }
 
 }
