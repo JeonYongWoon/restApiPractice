@@ -4,10 +4,14 @@ import com.example.restapipractice.admin.entity.Admin;
 import com.example.restapipractice.admin.repository.AdminRepository;
 import com.example.restapipractice.product.dto.ProductCreateRequestDto;
 import com.example.restapipractice.product.dto.ProductCreateResponseDto;
+import com.example.restapipractice.product.dto.ProductDto;
+import com.example.restapipractice.product.dto.ProductReadAllResponseDto;
 import com.example.restapipractice.product.entity.Product;
 import com.example.restapipractice.product.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.*;
 
 @Service
 public class ProductService {
@@ -51,5 +55,35 @@ public class ProductService {
         //반환하기
         return responseDto;
     }
+    /**
+     * 상품 전체조회 기능
+     */
+    @Transactional(readOnly = true)
+    public ProductReadAllResponseDto productReadAllService() {
+        // 1. 상품레포지토리의 모든 값을 조회하고 이름붙여주기
+        List<Product> productInfoAll = productRepository.findAll();
+
+        //1-1 productDtoList 만들어주기
+        ArrayList<ProductDto> productDtoList = new ArrayList<>();
+        for (Product newProduct : productInfoAll) {
+            // 2. 디티오에 담아줄값 꺼내주기
+            String newProductName = newProduct.getName();
+            int newProductPrice = newProduct.getPrice();
+            Admin newProductadmin = newProduct.getAdmin();
+            String adminName = newProductadmin.getName();
+            // 3. 내부 dto 만들기
+            ProductDto productDto = new ProductDto(newProductName, newProductPrice, adminName);
+            // 4. 내부 dto list로 모아주기
+            productDtoList.add(productDto);
+        }
+
+        // 5. 내부 dto를 반환 디티오에 담아주기
+        ProductReadAllResponseDto responseDto = new ProductReadAllResponseDto(productDtoList);
+
+        //6.반환하기
+        return responseDto;
+
+    }
+
 
 }

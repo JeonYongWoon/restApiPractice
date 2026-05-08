@@ -34,4 +34,8 @@ public class Product {
     public int getPrice() {
         return price;
     }
+
+    public Admin getAdmin() {
+        return admin;
+    }
 }
