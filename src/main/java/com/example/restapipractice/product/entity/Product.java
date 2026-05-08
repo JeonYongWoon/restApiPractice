@@ -3,6 +3,8 @@ package com.example.restapipractice.product.entity;
 import com.example.restapipractice.admin.entity.Admin;
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "Products")
 public class Product {
@@ -15,12 +17,17 @@ public class Product {
     private Admin admin;
     private String name;
     private int price;
+    public LocalDateTime updatedAt;
 
     //생성자
     public Product(Admin admin, String name, int price){
         this.admin = admin;
         this.name = name;
         this.price = price;
+    }
+    //수정일 생성자
+    public Product(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
     //jpa생성자
@@ -35,4 +42,13 @@ public class Product {
     public int getPrice() {return price;}
 
     public Admin getAdmin() {return admin;}
+
+    public Product updateAdmin(Admin admin) {
+        this.admin = admin;
+        return this;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
 }

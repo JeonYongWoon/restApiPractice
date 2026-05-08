@@ -8,6 +8,7 @@ import com.example.restapipractice.product.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
@@ -104,4 +105,32 @@ public class ProductService {
         return responseDto;
     }
 
+    /**
+     * 상품 수정 서비스
+     * 모니터 상품의 담당관리자를 gygim 에서 steve 로 변경해보세요.
+     */
+    @Transactional
+    // 1. 클라이언트에게서 요청 데이터 받아오기
+    public ProductUpdateResponseDto productUpdateService(Long id, ProductUpdateRequestDto productUpdateRequestDto){
+        // 2. 수정할 대상 레포지토리에 있는지 확인 받기
+        Product foundProduct = productRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("상품 번호가 조회되지 않습니다."));
+        // 3. 요청 dto에서 필요한 데이터 추출하기
+        Long requestAdminId = productUpdateRequestDto.getAdmin().getId();
+        // 4. 업데이트 될 데이터 레포지토리에 있는지 확인받기
+        Admin newAdminId = adminRepository.findById(requestAdminId)
+                .orElseThrow(() -> new IllegalArgumentException("수정될 담당관리자가 조회되 않습니다."));
+        // 5. 데이터 수정하기
+        Product updatedAdmin = foundProduct.updateAdmin(newAdminId);
+        //6. 응답 dto 값 넣어주기
+        Admin newAdmin = foundProduct.getAdmin();
+        String newName = foundProduct.getName();
+        int newPrice = foundProduct.getPrice();
+        LocalDateTime updatedAt = foundProduct.getUpdatedAt();
+
+        // 6. 응답dto 만들어주기
+        ProductUpdateResponseDto responseDto = new ProductUpdateResponseDto(newAdmin,newName,newPrice,updatedAt);
+        // 7. 반환하기
+        return responseDto;
+    }
 }

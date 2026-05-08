@@ -1,9 +1,6 @@
 package com.example.restapipractice.product.controller;
 
-import com.example.restapipractice.product.dto.ProductCreateRequestDto;
-import com.example.restapipractice.product.dto.ProductCreateResponseDto;
-import com.example.restapipractice.product.dto.ProductReadAllResponseDto;
-import com.example.restapipractice.product.dto.ProductReadResponseDto;
+import com.example.restapipractice.product.dto.*;
 import com.example.restapipractice.product.service.ProductService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -60,6 +57,22 @@ public class ProductController {
         ProductReadResponseDto responseDto = productService.productReadService(id);
         // 3. 멋진 반환 객체 만들기
         ResponseEntity<ProductReadResponseDto> response = new ResponseEntity<>(responseDto, HttpStatus.OK);
+        // 4. 반환하기
+        return response;
+
+    }
+
+    /**
+     * 상품 수정하기
+     * 모니터 상품의 담당관리자를 gygim 에서 steve 로 변경해보세요.
+     */
+    @PatchMapping("/{id}")
+    // 1. 요청 url 받아오기
+    public ResponseEntity<ProductUpdateResponseDto> productUpdateController(@PathVariable Long id,@RequestBody ProductUpdateRequestDto productUpdateRequestDto){
+        // 2. 서비스에게 요청 전달하고 결과값 반환받기
+        ProductUpdateResponseDto responseDto = productService.productUpdateService(id, productUpdateRequestDto);
+        // 3. 멋진 반환 객체 만들기
+        ResponseEntity<ProductUpdateResponseDto> response = new ResponseEntity<>(responseDto, HttpStatus.OK);
         // 4. 반환하기
         return response;
 

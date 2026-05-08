@@ -7,6 +7,7 @@ public class ProductReadResponseDto {
     public int price;
     public String adminName;
 
+
     //기능
     public Long getId() {
         return id;
