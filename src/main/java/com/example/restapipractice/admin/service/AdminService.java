@@ -42,4 +42,21 @@ public class AdminService {
         //6. dto 컨트롤러로 반환하기
         return responseDto;
     }
+
+    /**
+     * 관리자 삭제 서비스
+     * `gygim`  관리자를 삭제해봅시다. 그의 담당 상품인 `모니터` 는 어떻게 처리되어야할까요?
+     * 이 문제에서 실제로 DELETE 하지 않고 삭제여부를 표시하는 컬럼으로 관리해봅시다. - soft-delete
+     * `gygim` 이 soft-delete 된 후 모니터 상품을 조회하면 조회가 가능해야할까요?
+     */
+    @Transactional
+    // 1. 컨트롤러한테 요청 url 받기
+    public void adminDeleteService(Long id) {
+        // 2. 받은 데이터가 디비에 있는지 확인하기
+        Admin foundAdmin = adminRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("삭제 요청한 관리자가 조회되지 않습니다."));
+        // 3. 관리자 삭제하기
+        adminRepository.delete(foundAdmin);
+
+    }
 }

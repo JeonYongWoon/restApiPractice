@@ -1,10 +1,13 @@
 package com.example.restapipractice.admin.entity;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.SoftDelete;
+import org.hibernate.type.NumericBooleanConverter;
 
 //1. 필수 어노테이션 4개 입력 엔티티, 테이블,아이디, 제네레이트벨류
 @Entity
 @Table(name = "Admins")
+@SoftDelete(columnName = "is_deleted", converter = NumericBooleanConverter.class)
 public class Admin {
     //속성
     @Id
@@ -28,3 +31,4 @@ public class Admin {
         return id;
     }
 }
+

@@ -65,14 +65,20 @@ public class ProductService {
         ArrayList<ProductDto> productDtoList = new ArrayList<>();
         for (Product newProduct : productInfoAll) {
             // 2. 디티오에 담아줄값 꺼내주기
-            String newProductName = newProduct.getName();
-            int newProductPrice = newProduct.getPrice();
-            Admin newProductadmin = newProduct.getAdmin();
-            String adminName = newProductadmin.getName();
-            // 3. 내부 dto 만들기
-            ProductDto productDto = new ProductDto(newProductName, newProductPrice, adminName);
-            // 4. 내부 dto list로 모아주기
-            productDtoList.add(productDto);
+            //2-1. 트라이캐치로 삭제된 관리자는 에러 안나오고 넘어가게 세팅하기
+            try {
+                String newProductName = newProduct.getName();
+
+                int newProductPrice = newProduct.getPrice();
+                Admin newProductadmin = newProduct.getAdmin();
+                String adminName = newProductadmin.getName();
+                // 3. 내부 dto 만들기
+                ProductDto productDto = new ProductDto(newProductName, newProductPrice, adminName);
+                // 4. 내부 dto list로 모아주기
+                productDtoList.add(productDto);
+            } catch (Exception e) {
+            }
+
         }
 
         // 5. 내부 dto를 반환 디티오에 담아주기
@@ -92,11 +98,21 @@ public class ProductService {
         // 2. 레포지토리안에 변수값 있는지 조회하기
         Product newProduct = productRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("상품번호가 조회되지 않습니다."));
+
+        // 3-0. 찾은 엔티티 안에 필요한 데이터 꺼내기(어드민만 먼저)
+        Admin findAdmin = newProduct.getAdmin();
+        // 3-1. 관리자 삭제되었다면 에러응답 반환
+        if (findAdmin == null) {
+            throw new IllegalArgumentException("담당 관리자가 삭제된 상품입니다.");
+        }
+
         // 3. 찾은 엔티티 안에 필요한 데이터 꺼내기
         Long findID = newProduct.getId();
         String findName = newProduct.getName();
         int findPrice = newProduct.getPrice();
         String findAdminName = newProduct.getAdmin().getName();
+
+
 
         //4. 꺼낸 데이터 응답dto안에 넣어주기
         ProductReadResponseDto responseDto = new ProductReadResponseDto(findID, findName, findPrice, findAdminName);
@@ -133,4 +149,6 @@ public class ProductService {
         // 7. 반환하기
         return responseDto;
     }
+
+
 }
