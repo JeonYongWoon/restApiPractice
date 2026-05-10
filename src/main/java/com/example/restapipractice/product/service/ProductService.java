@@ -26,14 +26,14 @@ public class ProductService {
     //기능
     @Transactional
     //컨트롤러에게서 dto 가져오기
-    public ProductCreateResponseDto productCreateService(ProductCreateRequestDto requestDto){
+    public ProductCreateResponseDto productCreateService(ProductCreateRequestDto requestDto) {
         //가져온 dto에서 데이터 추출하기
         String newName = requestDto.getName();
         int newPrice = requestDto.getPrice();
         Long adminId = requestDto.getAdminId();
         //관리자 번호가 디비에 있는지 확인 후 이름 지어주기
         Admin newAdmin = adminRepository.findById(adminId).orElseThrow(
-                ()-> new IllegalArgumentException("관리자id가 조회되지 않습니다")
+                () -> new IllegalArgumentException("관리자id가 조회되지 않습니다")
         );
 
         //추출한 데이터 엔티티에 담기
@@ -53,6 +53,7 @@ public class ProductService {
         //반환하기
         return responseDto;
     }
+
     /**
      * 상품 전체조회 기능
      */
@@ -68,7 +69,6 @@ public class ProductService {
             //2-1. 트라이캐치로 삭제된 관리자는 에러 안나오고 넘어가게 세팅하기
             try {
                 String newProductName = newProduct.getName();
-
                 int newProductPrice = newProduct.getPrice();
                 Admin newProductadmin = newProduct.getAdmin();
                 String adminName = newProductadmin.getName();
@@ -88,13 +88,14 @@ public class ProductService {
         return responseDto;
 
     }
+
     /**
-     *상품 단건조회 서비스
+     * 상품 단건조회 서비스
      * 모니터 상품을 조회하면 해당 상품을 등록한 관리자의 이름도 함께 응답으로 반환되어야합니다.
      */
     @Transactional(readOnly = true)
     // 1.요청 매개변수 담아주기
-    public ProductReadResponseDto productReadService(Long id){
+    public ProductReadResponseDto productReadService(Long id) {
         // 2. 레포지토리안에 변수값 있는지 조회하기
         Product newProduct = productRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("상품번호가 조회되지 않습니다."));
@@ -113,7 +114,6 @@ public class ProductService {
         String findAdminName = newProduct.getAdmin().getName();
 
 
-
         //4. 꺼낸 데이터 응답dto안에 넣어주기
         ProductReadResponseDto responseDto = new ProductReadResponseDto(findID, findName, findPrice, findAdminName);
 
@@ -127,7 +127,7 @@ public class ProductService {
      */
     @Transactional
     // 1. 클라이언트에게서 요청 데이터 받아오기
-    public ProductUpdateResponseDto productUpdateService(Long id, ProductUpdateRequestDto productUpdateRequestDto){
+    public ProductUpdateResponseDto productUpdateService(Long id, ProductUpdateRequestDto productUpdateRequestDto) {
         // 2. 수정할 대상 레포지토리에 있는지 확인 받기
         Product foundProduct = productRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("상품 번호가 조회되지 않습니다."));
@@ -145,7 +145,7 @@ public class ProductService {
         LocalDateTime updatedAt = foundProduct.getUpdatedAt();
 
         // 6. 응답dto 만들어주기
-        ProductUpdateResponseDto responseDto = new ProductUpdateResponseDto(newAdminName,newName,newPrice,updatedAt);
+        ProductUpdateResponseDto responseDto = new ProductUpdateResponseDto(newAdminName, newName, newPrice, updatedAt);
         // 7. 반환하기
         return responseDto;
     }

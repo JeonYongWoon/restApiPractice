@@ -22,12 +22,14 @@ public class AdminService {
     //기능
     @Transactional
     //1. 컨트롤러에서 데이터 받아오기
-    public AdminCreateResponseDto adminCreateService(AdminCreateRequestDto requestDto){
+    public AdminCreateResponseDto adminCreateService(AdminCreateRequestDto requestDto) {
         // 2. dto에서 내가 원했던 데이터 꺼내기
-        String nameThatIWant = requestDto.getName();
+        String newName = requestDto.getName();
+        String newEmail = requestDto.getEmail();
+        String newPassword = requestDto.getPassword();
 
         // 3. 엔티티에 담아주고 새이름 붙여주기
-        Admin newAdmin = new Admin(nameThatIWant);
+        Admin newAdmin = new Admin(newName, newEmail, newPassword);
 
         //4. 레포지토리에 저장하기 & 저장한데이터 이름 붙여주기
         Admin savedAdmin = adminRepository.save(newAdmin);

@@ -25,7 +25,7 @@ public class AdminController {
 
     //기능
     //3. 관리자 회원가입 컨트롤러로직 생성
-    @PostMapping("/signup")
+    @PostMapping("/signupsss")
     //4. 클라이언트한테서 생성요청dto받아오기
     public ResponseEntity<AdminCreateResponseDto>
     adminCreateController(@RequestBody AdminCreateRequestDto requestDto) {

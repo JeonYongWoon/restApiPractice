@@ -13,22 +13,41 @@ public class Admin {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    //이메일 중복불가 설정
+    @Column(unique = true)
+    private String email;
     private String name;
+    private String password;
 
     //생성자
-    public Admin(String name){
+
+
+    public Admin(String email, String name, String password) {
+        this.email = email;
         this.name = name;
+        this.password = password;
     }
+
     //jpa생성자
-    protected Admin(){}
+    protected Admin() {
+
+    }
 
     //기능
-    public String getName(){
+    public String getName() {
         return name;
     }
 
     public Long getId() {
         return id;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPassword() {
+        return password;
     }
 }
 
