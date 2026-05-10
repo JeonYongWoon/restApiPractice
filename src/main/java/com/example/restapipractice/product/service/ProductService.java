@@ -123,13 +123,13 @@ public class ProductService {
         // 5. 데이터 수정하기
         Product updatedAdmin = foundProduct.updateAdmin(newAdminId);
         //6. 응답 dto 값 넣어주기
-        Admin newAdmin = foundProduct.getAdmin();
+        String newAdminName = foundProduct.getAdmin().getName();
         String newName = foundProduct.getName();
         int newPrice = foundProduct.getPrice();
         LocalDateTime updatedAt = foundProduct.getUpdatedAt();
 
         // 6. 응답dto 만들어주기
-        ProductUpdateResponseDto responseDto = new ProductUpdateResponseDto(newAdmin,newName,newPrice,updatedAt);
+        ProductUpdateResponseDto responseDto = new ProductUpdateResponseDto(newAdminName,newName,newPrice,updatedAt);
         // 7. 반환하기
         return responseDto;
     }

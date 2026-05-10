@@ -1,5 +1,6 @@
 package com.example.restapipractice.product.entity;
 
+import ch.qos.logback.classic.pattern.ClassOfCallerConverter;
 import com.example.restapipractice.admin.entity.Admin;
 import jakarta.persistence.*;
 
@@ -42,9 +43,10 @@ public class Product {
     public int getPrice() {return price;}
 
     public Admin getAdmin() {return admin;}
-
+    //관리자이름 업데이트 메서드 & 수정일 최신화
     public Product updateAdmin(Admin admin) {
         this.admin = admin;
+        this.updatedAt = LocalDateTime.now();
         return this;
     }
 
